@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>INDEX</title>
+</head>
+<body style="text-align: center">
+    <h1>Hello, everyone. This is my little blog</h1>
+<div style="text-align: center">
+    <form action="blog/" enctype="multipart/form-data">
+<ul>
+    {% for i in posts %}
+    <li>
+            <h3>{{ i.title }}</h3>
+            <p><img src="{{ i.image.url }}"></p>
+            <p>{{ i.descr }}</p>
+            <p>{{ i.hashtag }}</p>
+    </li>
+    {% endfor %}
+</ul>
+    </form>
+    </div>
+</body>
+</html>
