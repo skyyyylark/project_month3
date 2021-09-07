@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+</head>
+<body>
+    <div>
+            <p>{{ post.title }}</p>
+            <p><img src="{{ post.image.url }}"></p>
+            <p>{{ post.descr }}</p>
+            <p>{{ post.hashtag }}</p>
+        <div>
+            <h3>Comments</h3>
+            <ul style="list-style:none">
+                {% for i in comments %}
+                <li>{{ i.text }}
+                    <span>
+                        {{ i.datetime }}
+                    </span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+</body>
+</html>
