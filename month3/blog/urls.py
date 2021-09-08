@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -9,5 +9,6 @@ urlpatterns = [
     path('image/', views.image_view),
     path('students/', views.view_students),
     path('create-post/', views.create_post),
-    path('data/', views.BlogListApiView.as_view())
+    path('data/', views.BlogListApiView.as_view()),
+    path('accounts/', include('allauth.urls')),
 ]
