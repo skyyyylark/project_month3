@@ -19,6 +19,17 @@ class BlogView(generic.ListView):
     template_name = "index.html"
     queryset = Blog.objects.all()
     context_object_name = "posts"
+    def get_queryset(self):
+        qs = super(BlogView, self).get_queryset()
+        start_date = self.request.GET.get('start_date', None)
+        end_date = self.request.GET.get('end_date', None)
+        search = self.request.GET.get('search', '')
+        if start_date and end_date:
+            qs = qs.filter(date__gte=start_date, date__lte=end_date)
+        if search:
+            qs = qs.filter(hashtags__icontains=search) or qs.filter(title__icontains=search) or qs.filter(description__icontains=search)
+
+        return qs
 
 class BlogDetailView(generic.DetailView, generic.CreateView):
     template_name = "detail-post.html"
@@ -42,7 +53,13 @@ class BlogDetailView(generic.DetailView, generic.CreateView):
             Comment.objects.create(text=comment, blog_id=self.kwargs['pk'])
             return HttpResponseRedirect('/blog/')
 
-
+    def get_queryset(self):
+        qs = super(BlogDetailView, self).get_queryset()
+        start_date = self.request.GET.get('start_date', None)
+        end_date = self.request.GET.get('end_date', None)
+        if start_date and end_date:
+            qs = qs.filter(datetime__gte=start_date, datetime__lte=end_date)
+            return qs
 
 
 
@@ -90,3 +107,4 @@ def create_post(request):
 class BlogListApiView(ListAPIView):
     queryset = Blog.objects.all()
     serializer_class = BlogSerializer
+

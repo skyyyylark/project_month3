@@ -15,6 +15,7 @@ class Blog(models.Model):
     title = models.CharField(max_length=150)
     description = models.TextField()
     hashtags = models.TextField()
+    date = models.DateField(auto_now=True)
 
 class Comment(models.Model):
     text = models.TextField()

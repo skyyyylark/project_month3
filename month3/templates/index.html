@@ -17,6 +17,21 @@
     <p><a href="http://127.0.0.1:8000/users/login/">Login here</a></p>
 
     {% endif %}
+<script>
+    function search() {
+        let searchText = document.getElementById('search-box').value;
+        let newUrl = location.protocol + '//'+ location.host + "/blog/?" + 'search=' + searchText;
+
+        location.replace(newUrl)
+    }
+   </script>
+<div>
+    <label>
+        <input type="text" id="search-box">
+    </label>
+    <button onclick="search()"> search </button>
+</div>
+
 <div style="text-align: center">
     <form action="blog/" enctype="multipart/form-data">
 <ul>
