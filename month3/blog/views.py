@@ -16,9 +16,10 @@ from .forms import *
 
 
 class BlogView(generic.ListView):
-    template_name = "index.html"
+    template_name = 'index.html'
     queryset = Blog.objects.all()
-    context_object_name = "posts"
+    context_object_name = 'posts'
+
     def get_queryset(self):
         qs = super(BlogView, self).get_queryset()
         start_date = self.request.GET.get('start_date', None)
@@ -27,22 +28,20 @@ class BlogView(generic.ListView):
         if start_date and end_date:
             qs = qs.filter(date__gte=start_date, date__lte=end_date)
         if search:
-            qs = qs.filter(hashtags__icontains=search) or qs.filter(title__icontains=search) or qs.filter(description__icontains=search)
-
-        return qs
+            qs = qs.filter(title__icontains=search) or qs.filter(description__icontains=search) or qs.filter(hashtags__icontains=search)
+        return  qs
 
 class BlogDetailView(generic.DetailView, generic.CreateView):
     template_name = "detail-post.html"
     queryset = Blog.objects.all()
     context_object_name = "post"
     extra_context = {"comments": Comment.objects.all()}
-    
-    def get_context_data(self, **kwargs):
+
+    def get_context_data(self, *args, **kwargs):
         context = super(BlogDetailView, self).get_context_data(**kwargs)
         blog_id = self.kwargs['pk']
-        comments = Comment.objects.filter(blog_id=blog_id)
+        comments = Comment.objects.filter(blog_id=blog_id).order_by('-datatime')
         context['comments'] = comments
-        return context
 
 
     def post(self, request, **kwargs):
